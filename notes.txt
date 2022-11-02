@@ -1,0 +1,4 @@
+Wed 11-02-2022 10:46:02 AM
+going to use django i think
+	django is a python full-stack web framework
+also going to use mariadb
