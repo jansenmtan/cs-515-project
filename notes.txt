@@ -2,3 +2,15 @@ Wed 11-02-2022 10:46:02 AM
 going to use django i think
 	django is a python full-stack web framework
 also going to use mariadb
+
+Thu 11-03-2022 08:57:39 AM
+installing python venv on fractal at ~/.venv-cs-515-project/
+using that to run Django lmao
+
+Tue 11-08-2022 08:35:56 PM
+as the previous note may imply, run the venv locally, 
+	rather than through the remote fs
+
+Tue 11-08-2022 08:36:35 PM
+going to follow the django tutorial listed here:
+	https://docs.djangoproject.com/en/4.1/intro/tutorial01/
