@@ -4,3 +4,5 @@ __pycache__/
 
 Activate-venv.ps1
 Session.vim
+
+airline/db.sqlite3
