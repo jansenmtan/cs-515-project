@@ -8,20 +8,48 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>The Internet Airline</title>
+		<title>{% block title %}The Internet Airline{% endblock %}</title>
 
 		<!-- pico.css -->
 		<link rel="stylesheet" href="{% static 'main/css/pico.css' %}">
+
+		<!-- custom css stylesheet -->
+		<link rel="stylesheet" href="{% static 'main/custom.css' %}">
 
 		{% block header %}
 		{% endblock %}
 	</head>
 
 	<body>
+
+		<!-- hero -->
+		<div class="hero">
+			<!-- top menu bar -->
+			<nav class="container-fluid">
+				<ul> <li><a href="{% url 'index' %}" class="contrast"><strong>The Internet Airline</strong></a></li> </ul>
+				<ul> <!-- TODO: update urls -->
+					<li><a href="{% url 'index' %}" class="contrast">Great Deals</a></li>
+					<li><a href="{% url 'index' %}" class="contrast">Help</a></li>
+					<li><a href="{% url 'index' %}" class="contrast">Contact Us</a></li>
+				</ul>
+			</nav>
+
+			{% block hero %}
+			{% endblock %}
+
+		</div><!-- ./ hero -->
+
+		<!-- main -->
 		<main class="container">
-		  {% block container %}
+		  {% block maincontainer %}
 		  {% endblock %}
-		</main>
+		</main><!-- ./ main -->
+
 	</body>
+
+	<!-- footer -->
+	<footer class="container">
+		<small>© 2022 The Internet Airline • Built with <a href="https://picocss.com">Pico</a></small>
+	</footer><!-- ./ footer -->
 
 </html>
