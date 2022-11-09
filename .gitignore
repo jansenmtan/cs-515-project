@@ -1,2 +1,5 @@
 
 .venv
+mysite/mysite/__pycache__
+
+Activate-venv.ps1
