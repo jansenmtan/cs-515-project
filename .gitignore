@@ -7,3 +7,4 @@ Activate-venv.ps1
 
 mysite/db.sqlite3
 Session.vim
+mysite/.coverage
