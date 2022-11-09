@@ -1,2 +1,5 @@
 
 .venv
+
+Activate-venv.ps1
+Session.vim
