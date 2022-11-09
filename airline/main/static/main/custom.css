@@ -2,7 +2,7 @@
 :root {
   --spacing-company: 3rem;
   --font-weight: 400;
-  --border-radius: 0;
+  --border-radius: 0.25rem;
 }
 
 /* Typography */
