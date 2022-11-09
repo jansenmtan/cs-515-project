@@ -1,5 +1,6 @@
 
 .venv
+__pycache__/
 
 Activate-venv.ps1
 Session.vim
