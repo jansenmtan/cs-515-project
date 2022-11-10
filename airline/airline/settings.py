@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'airline.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'cs_515_project',
+        'USER': 'whishkey',
+        'PASSWORD': 'whishkey',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
