@@ -15,6 +15,9 @@ class Customer(models.Model):
     address = models.CharField(max_length=200, blank=True, null=True)
     password = models.CharField(max_length=16)
 
+    def __str__(self):
+        return f"{self.cname}"
+
     class Meta:
         managed = False
         db_table = 'Customer'
@@ -24,6 +27,9 @@ class City(models.Model):
     cityid = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50)
     state = models.CharField(max_length=2)
+
+    def __str__(self):
+        return f"{self.title}, {self.state}"
 
     class Meta:
         managed = False
@@ -42,6 +48,9 @@ class Flight(models.Model):
     orig = models.ForeignKey(City, models.CASCADE, db_column='orig', related_name='cities')
     dest = models.ForeignKey(City, models.CASCADE, db_column='dest')
 
+    def __str__(self):
+        return f"Flight {self.fnumber}: {self.orig} to {self.dest}"
+
     class Meta:
         managed = False
         db_table = 'Flight'
@@ -57,6 +66,9 @@ class Reservation(models.Model):
     cardmonth = models.IntegerField()
     cardyear = models.IntegerField()
     order_date = models.DateField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.ordernum}"
 
     class Meta:
         managed = False
