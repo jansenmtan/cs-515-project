@@ -1,0 +1,26 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}
+The Internet Airline - Contact Us
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block hero %}
+	<!-- header -->
+	<header class="container">
+		<h1>Contact us</h1>
+	</header>
+{% endblock %}
+
+{% block maincontainer %}
+	<form>
+		<input type="text" name="name" placeholder="Name" required>
+		<input type="email" name="email" placeholder="Email address" required>
+		<input type="text" name="subject" placeholder="Subject" required>
+		<textarea name="message" placeholder="Message" required></textarea>
+		<input type="submit" value="Submit">
+	</form>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}
+The Internet Airline - Help
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block hero %}
+	<!-- header -->
+	<header class="container">
+		<h1>Help</h1>
+	</header>
+{% endblock %}
+
+{% block maincontainer %}
+	<article>
+		Go to the home page to reserve flights.
+		<p><a href="{% url 'index' %}" role="button">Home</a></p>
+	</article>
+	<article>
+		Know the rules you have to follow.
+		<p><a href="{% url 'rules' %}" role="button">View rules</a></p>
+	</article>
+	<article>
+		Still need help? Send us a message.
+		<p><a href="{% url 'contactus' %}" role="button">Contact us</a></p>
+	</article>
+{% endblock %}
