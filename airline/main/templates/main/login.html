@@ -4,7 +4,10 @@
 {% block maincontainer %}
 	<article class="grid">
 		<div>
-			<h2>Log in to The Internet Airline</h2>
+			<hgroup>
+				<h1>Log in</h1>
+				<h2>Log in to The Internet Airline</h2>
+			</hgroup>
 
 			{% if form.errors %}
 				<div>
@@ -14,7 +17,7 @@
 				</div>
 			{% endif %}
 
-			<form method="POST" action=".">
+			<form method="POST" action="{% url 'login' %}">
 				{% csrf_token %}
 				{% for field in form %}
 					<label for="{{ field.auto_id }}">
@@ -25,12 +28,15 @@
 						{% endif %}
 					</label>
 				{% endfor %}
-				<button type="submit">Login</button>
+				<fieldset>
+					<label for="remember">
+						<input type="checkbox" role="switch" name="remember">
+						Remember me
+					</label>
+				</fieldset>
+				<button type="contrast">Login</button>
 				<button class="outline contrast" type="button">Create new account</button>
 			</form>
-
-			<p></p>
-
 		</div>
 	</article>
 {% endblock %}
