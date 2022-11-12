@@ -48,6 +48,9 @@ class Flight(models.Model):
     orig = models.ForeignKey(City, models.CASCADE, db_column='orig', related_name='cities')
     dest = models.ForeignKey(City, models.CASCADE, db_column='dest')
 
+    def is_available(self):
+        return self.available > 0
+
     def __str__(self):
         return f"Flight {self.fnumber}: {self.orig} to {self.dest}"
 
