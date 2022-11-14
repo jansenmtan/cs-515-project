@@ -7,6 +7,9 @@ class IndexView(TemplateView):
 class HelpView(TemplateView):
     template_name = "main/help.html"
 
+class RulesView(TemplateView):
+    template_name = "main/rules.html"
+
 class ContactUsView(TemplateView):
     template_name = "main/contactus.html"
 
