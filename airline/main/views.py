@@ -4,8 +4,15 @@ from django.views.generic.edit import FormView
 
 from . import forms
 
-class IndexView(TemplateView):
+class IndexView(FormView):
     template_name = "main/index.html"
+    form_class = forms.FlightSearchForm
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+class SelectDepartureFlightView(TemplateView):
+    template_name = "main/departureflights.html"
 
 class HelpView(TemplateView):
     template_name = "main/help.html"
