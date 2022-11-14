@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
+
+from . import forms
 
 class IndexView(TemplateView):
     template_name = "main/index.html"
@@ -10,6 +13,16 @@ class HelpView(TemplateView):
 class RulesView(TemplateView):
     template_name = "main/rules.html"
 
-class ContactUsView(TemplateView):
+class ContactUsView(FormView):
     template_name = "main/contactus.html"
+    form_class = forms.ContactForm
+    success_url = '/thanks/'
+
+    def form_valid(self, form):
+        # Would send the mail if I wanted to set up a mail server.
+        #form.send_mail()
+        return super().form_valid(form)
+
+class ThanksView(TemplateView):
+    template_name = "main/thanks.html"
 

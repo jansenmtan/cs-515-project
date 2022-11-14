@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-The Internet Airline - Contact Us
+The Internet Airline - Thanks
 {% endblock %}
 
 {% block header %}
@@ -11,14 +11,12 @@ The Internet Airline - Contact Us
 {% block hero %}
 	<!-- header -->
 	<header class="container">
-		<h1>Contact us</h1>
+		<hgroup>
+			<h1>Thank you</h1>
+			<h2>We appreciate your message.</h2>
+		</hgroup>
 	</header>
 {% endblock %}
 
 {% block maincontainer %}
-	<form method="POST" action="{% url 'contactus' %}">
-		{% csrf_token %}
-		{{ form }}
-		<input type="submit" value="Submit">
-	</form>
 {% endblock %}
