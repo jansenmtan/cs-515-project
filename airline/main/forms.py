@@ -10,7 +10,7 @@ class FlightSearchForm(forms.Form):
     origin_city      = forms.ModelChoiceField(queryset=models.City.objects.all())
     destination_city = forms.ModelChoiceField(queryset=models.City.objects.all())
     depart_date = forms.DateField(widget=forms.DateInput(attrs={ 'type': 'date'}))
-    return_date = forms.DateField(widget=forms.DateInput(attrs={ 'type': 'date'}))
+    return_date = forms.DateField(widget=forms.DateInput(attrs={ 'type': 'date'}), required=False)
 
     def clean(self):
         super().clean()
@@ -20,19 +20,10 @@ class FlightSearchForm(forms.Form):
         depart_date = self.cleaned_data.get('depart_date')
 
         errors = []
+
         if origin_city == destination_city:
             errors.append(ValidationError(
                     "Origin city cannot be the same as destination city.",
-                    code='invalid',
-                    ))
-        if return_date < depart_date:
-            errors.append(ValidationError(
-                    "Depart date must be after return date.",
-                    code='invalid',
-                    ))
-        if return_date < datetime.date.today():
-            errors.append(ValidationError(
-                    "Return date must be after today.",
                     code='invalid',
                     ))
         if depart_date < datetime.date.today():
@@ -40,6 +31,19 @@ class FlightSearchForm(forms.Form):
                     "Depart date must be after today.",
                     code='invalid',
                     ))
+
+        if return_date:
+            if return_date < depart_date:
+                errors.append(ValidationError(
+                        "Depart date must be after return date.",
+                        code='invalid',
+                        ))
+            if return_date < datetime.date.today():
+                errors.append(ValidationError(
+                        "Return date must be after today.",
+                        code='invalid',
+                        ))
+
         if errors:
             raise ValidationError(errors)
 
