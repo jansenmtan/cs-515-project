@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.utils import timezone
 
 from .models import Customer, City, Flight, Reservation
+from . import forms
 
 def create_flight(**kwargs):
     default_kwargs = {
@@ -60,4 +61,74 @@ class FlightModelTests(TestCase):
         the origin and destination cities should not be the same
         """
         pass
+
+
+class FlightSearchFormTest(TestCase):
+    valid_form_data = {}
+
+    @classmethod
+    def setUpTestData(cls):
+        City.objects.create(title="Chicago", state="IL")
+        City.objects.create(title="Los Angeles", state="CA")
+
+    def setUp(self):
+        self.valid_form_data.update({
+            'origin_city':      City.objects.get(pk=1).pk,
+            'destination_city': City.objects.get(pk=2).pk,
+            'depart_date': datetime.date.today(), 
+            'return_date': datetime.date.today() + datetime.timedelta(days=10),
+            })
+
+    def test_origin_city_is_same_as_destination_city(self):
+        form_data = {
+            **self.valid_form_data,
+            'origin_city':      City.objects.get(pk=1).pk,
+            'destination_city': City.objects.get(pk=1).pk,
+            }
+        form = forms.FlightSearchForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_origin_city_is_not_same_as_destination_city(self):
+        form_data = {
+            **self.valid_form_data,
+            'origin_city':      City.objects.get(pk=1).pk,
+            'destination_city': City.objects.get(pk=2).pk,
+            }
+        form = forms.FlightSearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_return_date_is_before_depart_date(self):
+        form_data = {
+            **self.valid_form_data,
+            'depart_date': datetime.date.today() + datetime.timedelta(days=10), 
+            'return_date': datetime.date.today() + datetime.timedelta(days=5),
+            }
+        form = forms.FlightSearchForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_return_date_is_after_depart_date(self):
+        form_data = {
+            **self.valid_form_data,
+            'depart_date': datetime.date.today(), 
+            'return_date': datetime.date.today() + datetime.timedelta(days=10),
+            }
+        form = forms.FlightSearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_return_date_is_before_today(self):
+        form_data = {
+            **self.valid_form_data,
+            'depart_date': datetime.date.today() - datetime.timedelta(days=10),
+            'return_date': datetime.date.today(),
+            }
+        form = forms.FlightSearchForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
+    def test_depart_date_is_before_today(self):
+        form_data = {
+            **self.valid_form_data,
+            'depart_date': datetime.date.today() - datetime.timedelta(days=10),
+            }
+        form = forms.FlightSearchForm(data=form_data)
+        self.assertFalse(form.is_valid())
 
