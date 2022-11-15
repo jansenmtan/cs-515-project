@@ -36,6 +36,15 @@ class SelectDepartureFlightView(FormView):
 
         return { 'queryset_departure_flights': queryset_departure_flights }
 
+
+    def form_valid(self, form):
+        redirect_url = reverse('returnflight')
+        # need to save the flight into the current reservation
+        return redirect(redirect_url)
+
+class SelectReturnFlightView(TemplateView):
+    template_name = "main/returnflights.html"
+
 class HelpView(TemplateView):
     template_name = "main/help.html"
 

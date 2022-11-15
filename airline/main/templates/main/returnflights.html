@@ -1,0 +1,24 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}
+The Internet Airline - Select Return Flight
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block hero %}
+	<!-- header -->
+	<header class="container">
+		<h1>Select Return Flight</h1>
+	</header>
+{% endblock %}
+
+{% block maincontainer %}
+	<form method="POST" action="{% url 'returnflight' %}">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Select return flight">
+	</form>
+{% endblock %}
