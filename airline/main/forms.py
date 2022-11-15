@@ -9,8 +9,8 @@ from . import models
 class FlightSearchForm(forms.Form):
     origin_city      = forms.ModelChoiceField(queryset=models.City.objects.all())
     destination_city = forms.ModelChoiceField(queryset=models.City.objects.all())
-    depart_date = forms.DateField(widget=forms.DateInput(attrs={ 'type': 'date'}))
-    return_date = forms.DateField(widget=forms.DateInput(attrs={ 'type': 'date'}), required=False)
+    depart_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    return_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
 
     def clean(self):
         super().clean()

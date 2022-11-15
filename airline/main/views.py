@@ -23,7 +23,7 @@ class SelectDepartureFlightView(FormView):
 
     def get_form_kwargs(self):
         queryset_departure_flights = models.Flight.objects.all()
-        
+
         if self.request.method == "GET":
             origin_city      = models.City.get_object_from_string(self.request.GET.get('origin_city'))
             destination_city = models.City.get_object_from_string(self.request.GET.get('destination_city'))
