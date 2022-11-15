@@ -57,7 +57,7 @@ class Flight(models.Model):
         return self.available > 0
 
     def __str__(self):
-        return f"Flight {self.fnumber}: {self.orig} to {self.dest}"
+        return f"{self.fid}: Flight {self.fnumber}: {self.orig} to {self.dest} on {self.fdate} at USD {self.price}"
 
     class Meta:
         managed = False
