@@ -1,6 +1,10 @@
-from django.shortcuts import render
+import urllib
+
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
+from django.urls import reverse, resolve
+from django.http import HttpResponseRedirect
 
 from . import forms
 
@@ -9,7 +13,9 @@ class IndexView(FormView):
     form_class = forms.FlightSearchForm
 
     def form_valid(self, form):
-        return super().form_valid(form)
+        redirect_url = reverse('departureflight')
+        get_parameters = urllib.parse.urlencode(form.cleaned_data)
+        return redirect(f"{redirect_url}?{get_parameters}")
 
 class SelectDepartureFlightView(TemplateView):
     template_name = "main/departureflights.html"

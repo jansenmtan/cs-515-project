@@ -22,7 +22,8 @@ The Internet Airline - Index
 {% endblock %}
 
 {% block maincontainer %}
-	<form method="GET" action="{% url 'departureflight' %}">
+	<form method="POST" action="{% url 'index' %}">
+		{% csrf_token %}
 		{{ form }}
 		<input type="submit" value="Find departure flights">
 	</form>
