@@ -16,8 +16,8 @@ class FlightSearchForm(forms.Form):
         super().clean()
         origin_city      = self.cleaned_data.get('origin_city')
         destination_city = self.cleaned_data.get('destination_city')
-        return_date = self.cleaned_data.get('return_date')
         depart_date = self.cleaned_data.get('depart_date')
+        return_date = self.cleaned_data.get('return_date')
 
         errors = []
 
