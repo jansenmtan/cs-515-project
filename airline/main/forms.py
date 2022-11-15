@@ -18,28 +18,34 @@ class FlightSearchForm(forms.Form):
         destination_city = self.cleaned_data.get('destination_city')
         return_date = self.cleaned_data.get('return_date')
         depart_date = self.cleaned_data.get('depart_date')
+
+        errors = []
         if origin_city == destination_city:
-            raise ValidationError(
+            errors.append(ValidationError(
                     "Origin city cannot be the same as destination city.",
                     code='invalid',
-                    )
-        elif return_date < depart_date:
-            raise ValidationError(
+                    ))
+        if return_date < depart_date:
+            errors.append(ValidationError(
                     "Depart date must be after return date.",
                     code='invalid',
-                    )
-        elif return_date < datetime.date.today():
-            raise ValidationError(
+                    ))
+        if return_date < datetime.date.today():
+            errors.append(ValidationError(
                     "Return date must be after today.",
                     code='invalid',
-                    )
-        elif depart_date < datetime.date.today():
-            raise ValidationError(
+                    ))
+        if depart_date < datetime.date.today():
+            errors.append(ValidationError(
                     "Depart date must be after today.",
                     code='invalid',
-                    )
+                    ))
+        if errors:
+            raise ValidationError(errors)
 
 
+class CustomerLoginForm(forms.Form):
+    email = forms.EmailField(label='Email address')
 
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=40)
