@@ -28,6 +28,11 @@ class City(models.Model):
     title = models.CharField(max_length=50)
     state = models.CharField(max_length=2)
 
+    @classmethod
+    def get_object_from_string(cls, string):
+        (title, state) = string.split(", ")
+        return cls.objects.get(title=title, state=state)
+
     def __str__(self):
         return f"{self.title}, {self.state}"
 

@@ -44,6 +44,18 @@ class FlightSearchForm(forms.Form):
             raise ValidationError(errors)
 
 
+class FlightSelectForm(forms.Form):
+    flight = forms.ModelChoiceField(
+            queryset = models.Flight.objects.none(),
+            widget = forms.RadioSelect(),
+            )
+
+    def __init__(self, *args, **kwargs):
+        queryset_departure_flights = kwargs.pop('queryset_departure_flights', models.Flight.objects.none())
+        super(FlightSelectForm, self).__init__(*args, **kwargs)
+
+        self.fields['flight'].queryset = queryset_departure_flights
+
 class CustomerLoginForm(forms.Form):
     email = forms.EmailField(label='Email address')
 

@@ -16,7 +16,9 @@ The Internet Airline - Select Departure Flight
 {% endblock %}
 
 {% block maincontainer %}
-	<article>
-		placeholder.
-	</article>
+	<form method="POST" action="{% url 'departureflight' %}">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Select departure flight">
+	</form>
 {% endblock %}
