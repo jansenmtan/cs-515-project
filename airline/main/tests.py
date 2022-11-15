@@ -132,3 +132,13 @@ class FlightSearchFormTest(TestCase):
         form = forms.FlightSearchForm(data=form_data)
         self.assertFalse(form.is_valid())
 
+    def test_return_date_is_none(self):
+        """
+        set a null return date. should be valid
+        """
+        form_data = {
+            **self.valid_form_data,
+            'return_date': None,
+            }
+        form = forms.FlightSearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
