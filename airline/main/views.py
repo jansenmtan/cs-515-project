@@ -91,7 +91,7 @@ class TicketQuantityView(FormView):
         # save ticket quantity onto current session
         self.request.session['ticket_quantity'] = form.data['ticket_quantity']
 
-        return redirect(reverse('login'))
+        return redirect(f"{reverse('login')}?next={reverse('billinginfo')}")
 
 class HelpView(TemplateView):
     template_name = "main/help.html"

@@ -9,31 +9,16 @@
 				<h2>Log in to The Internet Airline</h2>
 			</hgroup>
 
-			{% if form.errors %}
-				<div>
-					{% for k, error in form.errors.items %}
-						{{ error }}
-					{% endfor %}
-				</div>
-			{% endif %}
-
-			<form method="POST" action="{% url 'login' %}">
+			<form method="POST">
 				{% csrf_token %}
-				{% for field in form %}
-					<label for="{{ field.auto_id }}">
-						{{ field.label }}
-						{{ field }}
-						{% if field.errors %}
-							<div>{{ field.errors }}</div>
-						{% endif %}
-					</label>
-				{% endfor %}
-				<fieldset>
-					<label for="remember">
-						<input type="checkbox" role="switch" name="remember">
-						Remember me
-					</label>
-				</fieldset>
+				{{ form }}
+				<!-- Remember me field would be nice, but not sure how to implement into LoginView -->
+				<!-- <fieldset> -->
+					<!-- <label for="remember"> -->
+						<!-- <input type="checkbox" role="switch" name="remember"> -->
+						<!-- Remember me -->
+					<!-- </label> -->
+				<!-- </fieldset> -->
 				<button type="contrast">Login</button>
 				<button class="outline contrast" type="button">Create new account</button>
 			</form>
