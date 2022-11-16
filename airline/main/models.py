@@ -1,18 +1,41 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
+from . import managers
 
-class Customer(models.Model):
-    cid = models.AutoField(primary_key=True)
+class Customer(AbstractBaseUser, PermissionsMixin):
+    # fields specified in Design Document
     cname = models.CharField(max_length=80)
-    email = models.CharField(unique=True, max_length=40)
+    email = models.EmailField(unique=True, max_length=40)
     address = models.CharField(max_length=200, blank=True, null=True)
-    password = models.CharField(max_length=16)
+    #password = models.CharField(max_length=16) # already included in AbstractBaseUser
+
+    # fields specified by Django docs and source
+    #   at: https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#substituting-a-custom-user-model
+    #   at: https://github.com/django/django/blob/0dd29209091280ccf34e07c9468746c396b7778e/django/contrib/auth/models.py
+    USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
+    REQUIRED_FIELDS = ['cname']
+    is_active = models.BooleanField(default=True)
+
+    objects = managers.CustomerManager()
 
     def __str__(self):
         return f"{self.cname}"
 
+    def get_full_name(self):
+        return self.cname
+
+    def get_short_name(self):
+        # assume cname is "{first_name} {last_name}". only return first_name
+        return self.cname.strip().split(" ")[0]
+
+    def clean(self):
+        super().clean()
+        self.email = self.__class__.objects.normalize_email(self.email)
+
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Customer'
 
 
@@ -30,7 +53,7 @@ class City(models.Model):
         return f"{self.title}, {self.state}"
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'City'
 
 
@@ -53,7 +76,7 @@ class Flight(models.Model):
         return f"{self.fid}: Flight {self.fnumber}: {self.orig} to {self.dest} on {self.fdate} at USD {self.price}"
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Flight'
 
 
@@ -72,5 +95,5 @@ class Reservation(models.Model):
         return f"{self.ordernum}"
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'Reservation'

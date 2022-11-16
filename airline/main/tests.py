@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils import timezone
 
@@ -185,6 +186,30 @@ class FlightSelectFormTest(TestCase):
 
     def test_form_field_made_with_queryset_has_flight_field_with_same_count_as_queryset(self):
         queryset = Flight.objects.filter(orig=City.objects.get(title="Chicago"))
-        form = forms.FlightSelectForm(queryset_departure_flights=queryset)
+        form = forms.FlightSelectForm(queryset=queryset)
         self.assertEquals(form.fields['flight'].queryset.count(), queryset.count())
+
+
+class CustomerManagerTest(TestCase):
+    
+    def test_create_user(self):
+        Customer = get_user_model()
+        c = Customer.objects.create_user(email='jd@ex.io', cname='John Doe', password='pass')
+
+        self.assertTrue(c.is_active)
+        self.assertFalse(c.is_superuser)
+
+        with self.assertRaises(TypeError):
+            Customer.objects.create_user()
+        with self.assertRaises(TypeError):
+            Customer.objects.create_user(email='')
+        with self.assertRaises(TypeError):
+            Customer.objects.create_user(email='ea@ex.io', password='pwd')
+
+    def test_create_superuser(self):
+        Customer = get_user_model()
+        c = Customer.objects.create_superuser(email='jd@ex.io', cname='John Doe', password='pass')
+
+        self.assertTrue(c.is_active)
+        self.assertTrue(c.is_superuser)
 

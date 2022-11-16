@@ -105,6 +105,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# Custom User model
+# https://docs.djangoproject.com/en/4.1/topics/auth/customizing/#substituting-a-custom-user-model
+AUTH_USER_MODEL = 'main.Customer'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
