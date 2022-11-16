@@ -55,10 +55,10 @@ class FlightSelectForm(forms.Form):
             )
 
     def __init__(self, *args, **kwargs):
-        queryset_departure_flights = kwargs.pop('queryset_departure_flights', models.Flight.objects.all())
+        queryset = kwargs.pop('queryset', models.Flight.objects.all())
         super(FlightSelectForm, self).__init__(*args, **kwargs)
 
-        self.fields['flight'].queryset = queryset_departure_flights
+        self.fields['flight'].queryset = queryset
 
 class CustomerLoginForm(forms.Form):
     email = forms.EmailField(label='Email address')
