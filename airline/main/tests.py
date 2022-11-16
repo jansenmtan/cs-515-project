@@ -197,6 +197,7 @@ class CustomerManagerTest(TestCase):
         c = Customer.objects.create_user(email='jd@ex.io', cname='John Doe', password='pass')
 
         self.assertTrue(c.is_active)
+        self.assertFalse(c.is_staff)
         self.assertFalse(c.is_superuser)
 
         with self.assertRaises(TypeError):
@@ -211,5 +212,6 @@ class CustomerManagerTest(TestCase):
         c = Customer.objects.create_superuser(email='jd@ex.io', cname='John Doe', password='pass')
 
         self.assertTrue(c.is_active)
+        self.assertTrue(c.is_staff)
         self.assertTrue(c.is_superuser)
 

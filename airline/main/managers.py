@@ -17,5 +17,6 @@ class CustomerManager(BaseUserManager):
     def create_superuser(self, email, cname, password, **fields):
         user = self.create_user(email, cname, password=password, **fields)
         user.is_superuser = True
+        user.is_staff = True
         user.save()
         return user

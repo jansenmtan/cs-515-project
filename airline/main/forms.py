@@ -3,6 +3,7 @@ import datetime
 from django import forms
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from . import models
 
@@ -67,8 +68,20 @@ class TicketQuantityForm(forms.Form):
             min_value = 1,
             )
 
-class CustomerLoginForm(forms.Form):
-    email = forms.EmailField(label='Email address')
+
+class CustomerCreationForm(UserCreationForm):
+
+    class Meta:
+        model = models.Customer
+        fields = ('email', 'cname',)
+
+
+class CustomerChangeForm(UserChangeForm):
+
+    class Meta:
+        model = models.Customer
+        fields = ('email', 'cname',)
+
 
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=40)

@@ -17,6 +17,7 @@ class Customer(AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['cname']
     is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False) # only requred for UserCreationForm and UserChangeForm
 
     objects = managers.CustomerManager()
 
