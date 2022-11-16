@@ -42,8 +42,10 @@ class SelectDepartureFlightView(FormView):
         return kwargs
 
     def form_valid(self, form):
+        # save departure flight onto current session
+        self.request.session['departure_flight'] = form.data['flight']
+
         redirect_url = reverse('returnflight')
-        # need to save the flight into the current reservation
         return redirect(f"{redirect_url}?{self.request.META['QUERY_STRING']}")
 
 class SelectReturnFlightView(FormView):
@@ -75,8 +77,10 @@ class SelectReturnFlightView(FormView):
         return kwargs
 
     def form_valid(self, form):
+        # save return flight onto current session
+        self.request.session['return_flight'] = form.data['flight']
+
         redirect_url = reverse('returnflight') # need to change into select ticket qty page
-        # need to save the flight into the current reservation
         return redirect(f"{redirect_url}?{self.request.META['QUERY_STRING']}")
 
 class HelpView(TemplateView):
