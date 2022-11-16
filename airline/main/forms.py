@@ -50,12 +50,12 @@ class FlightSearchForm(forms.Form):
 
 class FlightSelectForm(forms.Form):
     flight = forms.ModelChoiceField(
-            queryset = models.Flight.objects.none(),
+            queryset = models.Flight.objects.all(),
             widget = forms.RadioSelect(),
             )
 
     def __init__(self, *args, **kwargs):
-        queryset_departure_flights = kwargs.pop('queryset_departure_flights', models.Flight.objects.none())
+        queryset_departure_flights = kwargs.pop('queryset_departure_flights', models.Flight.objects.all())
         super(FlightSelectForm, self).__init__(*args, **kwargs)
 
         self.fields['flight'].queryset = queryset_departure_flights

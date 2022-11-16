@@ -142,3 +142,49 @@ class FlightSearchFormTest(TestCase):
             }
         form = forms.FlightSearchForm(data=form_data)
         self.assertTrue(form.is_valid())
+
+
+class FlightSelectFormTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        City.objects.create(title="Chicago", state="IL")
+        City.objects.create(title="Los Angeles", state="CA")
+        Flight.objects.create(
+                fdate = datetime.date.today(),
+                ftime = datetime.datetime.now().time(),
+                price = 100.00,
+                class_field = 1,
+                capacity = 100,
+                available = 81,
+                orig = City.objects.get(title="Chicago"),
+                dest = City.objects.get(title="Los Angeles"),
+                )
+        Flight.objects.create(
+                fdate = datetime.date.today(),
+                ftime = datetime.datetime.now().time(),
+                price = 200.00,
+                class_field = 2,
+                capacity = 200,
+                available = 91,
+                orig = City.objects.get(title="Los Angeles"),
+                dest = City.objects.get(title="Chicago"),
+                )
+
+    def test_one_flight_selected(self):
+        form = forms.FlightSelectForm(data={'flight': Flight.objects.get(pk=1).pk})
+        self.assertTrue(form.is_valid())
+
+    def test_no_flight_selected(self):
+        form = forms.FlightSelectForm()
+        self.assertFalse(form.is_valid())
+
+    def test_form_field_made_with_no_queryset_has_flight_field_with_all_flights(self):
+        form = forms.FlightSelectForm()
+        self.assertEquals(form.fields['flight'].queryset.count(), Flight.objects.all().count())
+
+    def test_form_field_made_with_queryset_has_flight_field_with_same_count_as_queryset(self):
+        queryset = Flight.objects.filter(orig=City.objects.get(title="Chicago"))
+        form = forms.FlightSelectForm(queryset_departure_flights=queryset)
+        self.assertEquals(form.fields['flight'].queryset.count(), queryset.count())
+
