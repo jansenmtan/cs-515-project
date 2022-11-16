@@ -93,6 +93,18 @@ class TicketQuantityView(FormView):
 
         return redirect(f"{reverse('login')}?next={reverse('billinginfo')}")
 
+
+class BillingInformationView(FormView):
+    template_name = "main/billinginfo.html"
+    form_class = forms.BillingInformationForm
+
+    def form_valid(self, form):
+        # save billing information onto current session
+        self.request.session['card_number'] = form.data['card_number']
+        self.request.session['expiry_date'] = form.data['expiry_date']
+
+        return redirect(f"{reverse('billinginfo')}")
+
 class HelpView(TemplateView):
     template_name = "main/help.html"
 

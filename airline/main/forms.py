@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from . import models
+from . import models, fields
 
 class FlightSearchForm(forms.Form):
     origin_city      = forms.ModelChoiceField(queryset=models.City.objects.all())
@@ -67,6 +67,11 @@ class TicketQuantityForm(forms.Form):
             max_value = 10,
             min_value = 1,
             )
+
+
+class BillingInformationForm(forms.Form):
+    card_number = fields.CreditCardField()
+    expiry_date = fields.ExpiryDateField()
 
 
 class CustomerCreationForm(UserCreationForm):

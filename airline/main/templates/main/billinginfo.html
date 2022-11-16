@@ -1,0 +1,24 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}
+The Internet Airline - Enter Billing Information
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block hero %}
+	<!-- header -->
+	<header class="container">
+		<h1>Enter Billing Information</h1>
+	</header>
+{% endblock %}
+
+{% block maincontainer %}
+	<form method="POST" action="{{ request.get_full_path }}">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Confirm">
+	</form>
+{% endblock %}
