@@ -25,27 +25,27 @@ class SelectDepartureFlightView(FormView):
         kwargs = super().get_form_kwargs()
 
         if self.request.method == "GET":
-            queryset_departure_flights = models.Flight.objects.all()
+            if self.request.META['QUERY_STRING'] != "":
+                queryset_departure_flights = models.Flight.objects.all()
 
-            # unhandled case: GET.get(...) may return empty string!
-            origin_city      = models.City.get_object_from_string(self.request.GET.get('origin_city'))
-            destination_city = models.City.get_object_from_string(self.request.GET.get('destination_city'))
+                origin_city      = models.City.get_object_from_string(self.request.GET.get('origin_city'))
+                destination_city = models.City.get_object_from_string(self.request.GET.get('destination_city'))
 
-            queryset_departure_flights = models.Flight.objects.filter(
-                    orig = origin_city,
-                    dest = destination_city,
-                    fdate = self.request.GET.get('depart_date'),
-                    available__gt = 0, # equiv. model method: is_available()
-                    )
+                queryset_departure_flights = models.Flight.objects.filter(
+                        orig = origin_city,
+                        dest = destination_city,
+                        fdate = self.request.GET.get('depart_date'),
+                        available__gt = 0, # equiv. model method: is_available()
+                        )
 
-            kwargs.update({ 'queryset_departure_flights': queryset_departure_flights })
+                kwargs.update({ 'queryset': queryset_departure_flights })
 
         return kwargs
 
     def form_valid(self, form):
         redirect_url = reverse('returnflight')
         # need to save the flight into the current reservation
-        return redirect(redirect_url)
+        return redirect(f"{redirect_url}?{self.request.META['QUERY_STRING']}")
 
 class SelectReturnFlightView(TemplateView):
     template_name = "main/returnflights.html"
