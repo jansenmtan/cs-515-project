@@ -22,11 +22,15 @@ class SelectDepartureFlightView(FormView):
     form_class = forms.FlightSelectForm
 
     def get_form_kwargs(self):
-        queryset_departure_flights = models.Flight.objects.all()
+        kwargs = super().get_form_kwargs()
 
         if self.request.method == "GET":
+            queryset_departure_flights = models.Flight.objects.all()
+
+            # unhandled case: GET.get(...) may return empty string!
             origin_city      = models.City.get_object_from_string(self.request.GET.get('origin_city'))
             destination_city = models.City.get_object_from_string(self.request.GET.get('destination_city'))
+
             queryset_departure_flights = models.Flight.objects.filter(
                     orig = origin_city,
                     dest = destination_city,
@@ -34,8 +38,9 @@ class SelectDepartureFlightView(FormView):
                     available__gt = 0, # equiv. model method: is_available()
                     )
 
-        return { 'queryset_departure_flights': queryset_departure_flights }
+            kwargs.update({ 'queryset_departure_flights': queryset_departure_flights })
 
+        return kwargs
 
     def form_valid(self, form):
         redirect_url = reverse('returnflight')
