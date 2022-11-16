@@ -16,7 +16,7 @@ The Internet Airline - Select Return Flight
 {% endblock %}
 
 {% block maincontainer %}
-	<form method="POST" action="{% url 'returnflight' %}">
+	<form method="POST" action="{{ request.get_full_path }}">
 		{% csrf_token %}
 		{{ form }}
 		<input type="submit" value="Select return flight">

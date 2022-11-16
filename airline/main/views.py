@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.urls import reverse, resolve
 from django.http import HttpResponseRedirect
+from django.utils import dateparse
 
 from . import forms, models
 
@@ -45,8 +46,38 @@ class SelectDepartureFlightView(FormView):
         # need to save the flight into the current reservation
         return redirect(f"{redirect_url}?{self.request.META['QUERY_STRING']}")
 
-class SelectReturnFlightView(TemplateView):
+class SelectReturnFlightView(FormView):
     template_name = "main/returnflights.html"
+    form_class = forms.FlightSelectForm
+
+    # if self.request.META['QUERY_STRING'] == "", then there needs to be a redirect to the home page
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        if self.request.method == "GET":
+            if self.request.META['QUERY_STRING'] != "":
+                origin_city      = models.City.get_object_from_string(self.request.GET.get('origin_city'))
+                destination_city = models.City.get_object_from_string(self.request.GET.get('destination_city'))
+                return_date = dateparse.parse_date(self.request.GET.get('return_date'))
+
+                queryset_return_flights = models.Flight.objects.filter(
+                        orig = destination_city,
+                        dest = origin_city,
+                        fdate__gt = self.request.GET.get('depart_date'),
+                        available__gt = 0, # equiv. model method: is_available()
+                        )
+                if return_date is not None:
+                    queryset_return_flights.filter(fdate=return_date)
+
+                kwargs.update({ 'queryset': queryset_return_flights })
+
+        return kwargs
+
+    def form_valid(self, form):
+        redirect_url = reverse('returnflight') # need to change into select ticket qty page
+        # need to save the flight into the current reservation
+        return redirect(f"{redirect_url}?{self.request.META['QUERY_STRING']}")
 
 class HelpView(TemplateView):
     template_name = "main/help.html"
