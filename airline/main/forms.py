@@ -60,6 +60,13 @@ class FlightSelectForm(forms.Form):
 
         self.fields['flight'].queryset = queryset
 
+
+class TicketQuantityForm(forms.Form):
+    ticket_quantity = forms.IntegerField(
+            max_value = 10,
+            min_value = 1,
+            )
+
 class CustomerLoginForm(forms.Form):
     email = forms.EmailField(label='Email address')
 

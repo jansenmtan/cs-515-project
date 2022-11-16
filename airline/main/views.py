@@ -80,8 +80,18 @@ class SelectReturnFlightView(FormView):
         # save return flight onto current session
         self.request.session['return_flight'] = form.data['flight']
 
-        redirect_url = reverse('returnflight') # need to change into select ticket qty page
-        return redirect(f"{redirect_url}?{self.request.META['QUERY_STRING']}")
+        return redirect(reverse("ticketquantity"))
+
+
+class TicketQuantityView(FormView):
+    template_name = "main/ticketqty.html"
+    form_class = forms.TicketQuantityForm
+
+    def form_valid(self, form):
+        # save ticket quantity onto current session
+        self.request.session['ticket_quantity'] = form.data['ticket_quantity']
+
+        return redirect(reverse('login'))
 
 class HelpView(TemplateView):
     template_name = "main/help.html"
