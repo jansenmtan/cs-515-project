@@ -26,8 +26,6 @@ class SelectDepartureFlightView(FormView):
 
         if self.request.method == "GET":
             if self.request.META['QUERY_STRING'] != "":
-                queryset_departure_flights = models.Flight.objects.all()
-
                 origin_city      = models.City.get_object_from_string(self.request.GET.get('origin_city'))
                 destination_city = models.City.get_object_from_string(self.request.GET.get('destination_city'))
 
