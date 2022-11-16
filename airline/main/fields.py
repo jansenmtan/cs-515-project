@@ -3,6 +3,7 @@ from datetime import date
 from calendar import monthrange, IllegalMonthError
 from django import forms
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 
@@ -24,9 +25,9 @@ class CreditCardField(forms.CharField):
     def clean(self, value):
         value = value.replace(' ', '').replace('-', '')
         if self.required and not value:
-            raise forms.util.ValidationError(self.error_messages['required'])
+            raise ValidationError(self.error_messages['required'])
         if value and not re.match(CREDIT_CARD_RE, value):
-            raise forms.util.ValidationError(self.error_messages['invalid'])
+            raise ValidationError(self.error_messages['invalid'])
         return value
 
 
@@ -73,7 +74,7 @@ class ExpiryDateField(forms.MultiValueField):
     def clean(self, value):
         expiry_date = super(ExpiryDateField, self).clean(value)
         if date.today() > expiry_date:
-            raise forms.ValidationError(self.error_messages['date_passed'])
+            raise ValidationError(self.error_messages['date_passed'])
         return expiry_date
 
     def compress(self, data_list):
@@ -81,17 +82,17 @@ class ExpiryDateField(forms.MultiValueField):
             try:
                 month = int(data_list[0])
             except (ValueError, TypeError):
-                raise forms.ValidationError(self.error_messages['invalid_month'])
+                raise ValidationError(self.error_messages['invalid_month'])
             try:
                 year = int(data_list[1])
             except (ValueError, TypeError):
-                raise forms.ValidationError(self.error_messages['invalid_year'])
+                raise ValidationError(self.error_messages['invalid_year'])
             try:
                 day = monthrange(year, month)[1] # last day of the month
             except IllegalMonthError:
-                raise forms.ValidationError(self.error_messages['invalid_month'])
+                raise ValidationError(self.error_messages['invalid_month'])
             except ValueError:
-                raise forms.ValidationError(self.error_messages['invalid_year'])
+                raise ValidationError(self.error_messages['invalid_year'])
             return date(year, month, day)
         return None
 
@@ -111,7 +112,7 @@ class VerificationValueField(forms.CharField):
     def clean(self, value):
         value = value.replace(' ', '')
         if not value and self.required:
-            raise forms.util.ValidationError(self.error_messages['required'])
+            raise ValidationError(self.error_messages['required'])
         if value and not re.match(VERIFICATION_VALUE_RE, value):
-            raise forms.util.ValidationError(self.error_messages['invalid'])
+            raise ValidationError(self.error_messages['invalid'])
         return value
