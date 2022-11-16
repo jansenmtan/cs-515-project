@@ -101,7 +101,8 @@ class BillingInformationView(FormView):
     def form_valid(self, form):
         # save billing information onto current session
         self.request.session['card_number'] = form.data['card_number']
-        self.request.session['expiry_date'] = form.data['expiry_date']
+        self.request.session['expiry_date_month'] = form.data['expiry_date_0']
+        self.request.session['expiry_date_year']  = form.data['expiry_date_1']
 
         return redirect(f"{reverse('billinginfo')}")
 
