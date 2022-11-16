@@ -1,47 +1,47 @@
 USE cs_515_project;
 
-INSERT IGNORE INTO Customer (
-    cid,
-    cname,
-    email,
-    address,
-    password
-) VALUES
-(
-    1,
-    'John Doe',
-    'jd@ex.io',
-    '123 First Street',
-    'jd'
-),
-(
-    15,
-    'Johnson Samuel',
-	'js@ex.io',
-    '123 E Montgomery Ln',
-	'js'
-),
-(
-	27,
-	'Tanya Stevens',
-	'ts@ex.io',
-	'3280 S Michigan Rd',
-	'ts'
-),
-(
-	632,
-	'Mark Halle',
-	'mh@ex.io',
-	'1555 W 155th Ln',
-	'mh'
-),
-(
-	93,
-	'Hyden Hughes',
-	'hh@ex.io',
-	'665 N Otthat Cir',
-	'hh'
-);
+/* INSERT IGNORE INTO Customer (
+       cid,
+       cname,
+       email,
+       address,
+       password
+   ) VALUES
+   (
+       1,
+       'John Doe',
+       'jd@ex.io',
+       '123 First Street',
+       'jd'
+   ),
+   (
+       15,
+       'Johnson Samuel',
+   	'js@ex.io',
+       '123 E Montgomery Ln',
+   	'js'
+   ),
+   (
+   	27,
+   	'Tanya Stevens',
+   	'ts@ex.io',
+   	'3280 S Michigan Rd',
+   	'ts'
+   ),
+   (
+   	632,
+   	'Mark Halle',
+   	'mh@ex.io',
+   	'1555 W 155th Ln',
+   	'mh'
+   ),
+   (
+   	93,
+   	'Hyden Hughes',
+   	'hh@ex.io',
+   	'665 N Otthat Cir',
+   	'hh'
+   ); */
 
 INSERT IGNORE INTO City (
 	cityid,
