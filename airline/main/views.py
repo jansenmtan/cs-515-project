@@ -37,7 +37,7 @@ class SelectDepartureFlightView(FormView):
                         available__gt = 0, # equiv. model method: is_available()
                         )
 
-                kwargs.update({ 'queryset': queryset_departure_flights })
+                kwargs.update({ 'queryset': queryset_departure_flights, 'required': True })
 
         return kwargs
 
@@ -71,11 +71,13 @@ class SelectReturnFlightView(FormView):
                         )
                 if return_date is not None:
                     queryset_return_flights.filter(fdate=return_date)
+                else:
+                    kwargs.update({ 'empty_label': 'No return flight' })
 
                 kwargs.update({ 'queryset': queryset_return_flights })
 
         return kwargs
-
+    
     def form_valid(self, form):
         # save return flight onto current session
         self.request.session['return_flight'] = form.data['flight']

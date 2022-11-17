@@ -53,13 +53,21 @@ class FlightSelectForm(forms.Form):
     flight = forms.ModelChoiceField(
             queryset = models.Flight.objects.all(),
             widget = forms.RadioSelect(),
+            required = False,
             )
 
     def __init__(self, *args, **kwargs):
         queryset = kwargs.pop('queryset', models.Flight.objects.all())
+        required = kwargs.pop('required', False)
+        empty_label = kwargs.pop('empty_label', "No flight")
+
         super(FlightSelectForm, self).__init__(*args, **kwargs)
 
         self.fields['flight'].queryset = queryset
+        self.fields['flight'].required = required
+        self.fields['flight'].empty_label = empty_label
+        if required:
+            self.fields['flight'].empty_label = None
 
 
 class TicketQuantityForm(forms.Form):

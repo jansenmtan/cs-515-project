@@ -176,9 +176,13 @@ class FlightSelectFormTest(TestCase):
         form = forms.FlightSelectForm(data={'flight': Flight.objects.get(pk=1).pk})
         self.assertTrue(form.is_valid())
 
-    def test_no_flight_selected(self):
+    def test_empty_form(self):
         form = forms.FlightSelectForm()
         self.assertFalse(form.is_valid())
+
+    def test_no_flight_selected_with_required_set_to_false(self):
+        form = forms.FlightSelectForm(required=False, data={'flight': ''})
+        self.assertTrue(form.is_valid())
 
     def test_form_field_made_with_no_queryset_has_flight_field_with_all_flights(self):
         form = forms.FlightSelectForm()
@@ -214,4 +218,3 @@ class CustomerManagerTest(TestCase):
         self.assertTrue(c.is_active)
         self.assertTrue(c.is_staff)
         self.assertTrue(c.is_superuser)
-
