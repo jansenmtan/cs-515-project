@@ -1,0 +1,25 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}
+The Internet Airline - Confirm Reservation
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block hero %}
+	<!-- header -->
+	<header class="container">
+		<h1>Confirm your reservation</h1>
+	</header>
+{% endblock %}
+
+{% block maincontainer %}
+	{{ object }}
+	<!-- <form method="POST" action="{ url 'submitreservation' %}"> -->
+	<form method="POST">
+		{% csrf_token %}
+		<input type="submit" value="Confirm reservation">
+	</form>
+{% endblock %}

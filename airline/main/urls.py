@@ -9,6 +9,7 @@ urlpatterns = [
         path('returnflight/', views.SelectReturnFlightView.as_view(), name='returnflight'),
         path('ticketquantity/', views.TicketQuantityView.as_view(), name='ticketquantity'),
         path('billinginfo/', views.BillingInformationView.as_view(), name='billinginfo'),
+        path('confirmreservation/', views.ConfirmReservationDetailView.as_view(), name='confirmreservation'),
         path('deals/', views.IndexView.as_view(), name='deals'),
         path('rules/', views.RulesView.as_view(), name='rules'),
         path('help/', views.HelpView.as_view(), name='help'),

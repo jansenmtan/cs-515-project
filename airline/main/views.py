@@ -3,6 +3,7 @@ import urllib
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
+from django.views.generic.detail import DetailView
 from django.urls import reverse, resolve
 from django.http import HttpResponseRedirect
 from django.utils import dateparse
@@ -106,7 +107,29 @@ class BillingInformationView(FormView):
         self.request.session['expiry_date_month'] = form.data['expiry_date_0']
         self.request.session['expiry_date_year']  = form.data['expiry_date_1']
 
-        return redirect(f"{reverse('billinginfo')}")
+        return redirect(f"{reverse('confirmreservation')}")
+
+
+class ConfirmReservationDetailView(DetailView): # use FormView instead?
+    model = models.Reservation
+    template_name = 'main/confirmreservation.html'
+
+    def get_object(self, *args, **kwargs):
+        return_flight = self.request.session['return_flight']
+        rfid = return_flight if return_flight != "" else None
+        rf = None if rfid is None else models.Flight.objects.get(pk=rfid)
+
+        reservation_data = {
+                'cid':       models.Customer.objects.get(pk=self.request.user.id),
+                'dfid':      models.Flight.objects.get(pk=self.request.session['departure_flight']),
+                'rfid':      rf,
+                'qty':       self.request.session['ticket_quantity'],
+                'cardnum':   self.request.session['card_number'],
+                'cardmonth': self.request.session['expiry_date_month'],
+                'cardyear':  self.request.session['expiry_date_year'],
+                }
+        return models.Reservation(**reservation_data)
+
 
 class HelpView(TemplateView):
     template_name = "main/help.html"
