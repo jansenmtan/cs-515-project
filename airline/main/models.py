@@ -93,7 +93,7 @@ class Reservation(models.Model):
     order_date = models.DateField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.ordernum}"
+        return f"Reservation {self.ordernum}: by {self.cid}, departing flight {self.dfid}, tickets: {self.qty}"
 
     class Meta:
         managed = True
