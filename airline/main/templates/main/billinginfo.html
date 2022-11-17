@@ -16,7 +16,7 @@ The Internet Airline - Enter Billing Information
 {% endblock %}
 
 {% block maincontainer %}
-	<form method="POST" action="{{ request.get_full_path }}">
+	<form method="POST">
 		{% csrf_token %}
 		{{ form }}
 		<input type="submit" value="Confirm">
