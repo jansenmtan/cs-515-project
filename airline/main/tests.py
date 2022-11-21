@@ -1,8 +1,7 @@
 import datetime
 
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
-from django.utils import timezone
 from django.urls import reverse
 
 from .models import Customer, City, Flight, Reservation
@@ -142,7 +141,7 @@ class FlightSearchFormTest(TestCase):
         self.valid_form_data.update({
             'origin_city':      City.objects.get(pk=1).pk,
             'destination_city': City.objects.get(pk=2).pk,
-            'depart_date': datetime.date.today(), 
+            'depart_date': datetime.date.today(),
             'return_date': datetime.date.today() + datetime.timedelta(days=10),
             })
 
@@ -167,7 +166,7 @@ class FlightSearchFormTest(TestCase):
     def test_return_date_is_before_depart_date(self):
         form_data = {
             **self.valid_form_data,
-            'depart_date': datetime.date.today() + datetime.timedelta(days=10), 
+            'depart_date': datetime.date.today() + datetime.timedelta(days=10),
             'return_date': datetime.date.today() + datetime.timedelta(days=5),
             }
         form = forms.FlightSearchForm(data=form_data)
@@ -176,7 +175,7 @@ class FlightSearchFormTest(TestCase):
     def test_return_date_is_after_depart_date(self):
         form_data = {
             **self.valid_form_data,
-            'depart_date': datetime.date.today(), 
+            'depart_date': datetime.date.today(),
             'return_date': datetime.date.today() + datetime.timedelta(days=10),
             }
         form = forms.FlightSearchForm(data=form_data)
@@ -240,7 +239,7 @@ class FlightSelectFormTest(TestCase):
 
 
 class CustomerManagerTest(TestCase):
-    
+
     def test_create_user(self):
         Customer = get_user_model()
         c = Customer.objects.create_user(email='jd@ex.io', cname='John Doe', password='pass')
@@ -327,4 +326,3 @@ class SubmitReservationViewTest(TestCase):
         response = c.get(reverse('submitreservation'))
 
         self.assertTrue(response.context['reservation_placed'])
-

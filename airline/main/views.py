@@ -86,7 +86,7 @@ class SelectReturnFlightView(FormView):
                 kwargs.update({ 'queryset': queryset_return_flights })
 
         return kwargs
-    
+
     def form_valid(self, form):
         # save return flight onto current session
         self.request.session['return_flight'] = form.data['flight']
@@ -218,4 +218,3 @@ class ContactUsView(FormView):
 
 class ThanksView(TemplateView):
     template_name = "main/thanks.html"
-

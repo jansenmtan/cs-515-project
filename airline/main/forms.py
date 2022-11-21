@@ -111,4 +111,3 @@ class ContactForm(forms.Form):
                 self.cleaned_data['email'],
                 ['jansenmtan@gmail.com'],
                 )
-
