@@ -1,0 +1,26 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}
+The Internet Airline - Submit Reservation
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block hero %}
+	<!-- header -->
+	<header class="container">
+		<h1>Submitting your reservation</h1>
+	</header>
+{% endblock %}
+
+{% block maincontainer %}
+	{% if reservation_placed %}
+	Reservation successfully placed!
+	An confirmation email has been sent to {{ request.user.email }}.
+	{% else %}
+	Something went wrong.
+	The reservation has not been placed.
+	{% endif %}
+{% endblock %}

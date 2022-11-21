@@ -2,7 +2,7 @@ import urllib
 
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView
 from django.views.generic.detail import DetailView
 from django.urls import reverse, resolve
 from django.http import HttpResponseRedirect
@@ -110,25 +110,44 @@ class BillingInformationView(FormView):
         return redirect(f"{reverse('confirmreservation')}")
 
 
-class ConfirmReservationDetailView(DetailView): # use FormView instead?
+def get_reservation_object(request):
+    return_flight = request.session['return_flight']
+    rfid = return_flight if return_flight != "" else None
+    rf = None if rfid is None else models.Flight.objects.get(pk=rfid)
+
+    reservation_data = {
+            'cid':       models.Customer.objects.get(pk=request.user.id),
+            'dfid':      models.Flight.objects.get(pk=request.session['departure_flight']),
+            'rfid':      rf,
+            'qty':       int(request.session['ticket_quantity']),
+            'cardnum':   request.session['card_number'],
+            'cardmonth': int(request.session['expiry_date_month']),
+            'cardyear':  int(request.session['expiry_date_year']),
+            }
+    return models.Reservation(**reservation_data)
+
+
+class ConfirmReservationDetailView(DetailView):
     model = models.Reservation
     template_name = 'main/confirmreservation.html'
 
     def get_object(self, *args, **kwargs):
-        return_flight = self.request.session['return_flight']
-        rfid = return_flight if return_flight != "" else None
-        rf = None if rfid is None else models.Flight.objects.get(pk=rfid)
+        return get_reservation_object(self.request)
 
-        reservation_data = {
-                'cid':       models.Customer.objects.get(pk=self.request.user.id),
-                'dfid':      models.Flight.objects.get(pk=self.request.session['departure_flight']),
-                'rfid':      rf,
-                'qty':       self.request.session['ticket_quantity'],
-                'cardnum':   self.request.session['card_number'],
-                'cardmonth': self.request.session['expiry_date_month'],
-                'cardyear':  self.request.session['expiry_date_year'],
-                }
-        return models.Reservation(**reservation_data)
+    def post(self, *args, **kwargs):
+        return redirect(f"{reverse('submitreservation')}")
+
+
+class SubmitReservationView(TemplateView):
+    template_name = "main/submitreservation.html"
+
+    def get(self, request, *args, **kwargs):
+        reservation_placed =  models.Reservation.place(get_reservation_object(request))
+
+        context = self.get_context_data(**kwargs)
+        context['reservation_placed'] = reservation_placed
+
+        return self.render_to_response(context)
 
 
 class HelpView(TemplateView):

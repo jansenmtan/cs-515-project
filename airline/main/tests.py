@@ -1,8 +1,9 @@
 import datetime
 
-from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.contrib.auth import get_user_model, authenticate
+from django.test import TestCase, Client
 from django.utils import timezone
+from django.urls import reverse
 
 from .models import Customer, City, Flight, Reservation
 from . import forms
@@ -246,4 +247,45 @@ class CustomerManagerTest(TestCase):
         self.assertTrue(c.is_staff)
         self.assertTrue(c.is_superuser)
 
+
+class SubmitReservationViewTest(TestCase):
+    valid_reservation_data = {}
+
+    @classmethod
+    def setUpTestData(cls):
+        initialize_City_and_Flight()
+
+        Customer_user_model = get_user_model()
+        Customer_user_model.objects.create_user(email='jd@ex.io', cname='John Doe', password='pass')
+
+    def setUp(self):
+        self.valid_reservation_data.update({
+            'cid':       Customer.objects.get(cname='John Doe'),
+            'dfid':      Flight.objects.get(capacity=100),
+            'rfid':      Flight.objects.get(capacity=200),
+            'qty':       1,
+            'cardnum':   "4111111111111111",
+            'cardmonth': 12,
+            'cardyear':  2022,
+            })
+
+    def test_place_valid_reservation(self):
+        c = Client()
+
+        c.login(email='jd@ex.io', password='pass')
+
+        session = c.session
+        session.update({
+            'departure_flight':  Flight.objects.all()[0].pk,
+            'return_flight':     Flight.objects.all()[1].pk,
+            'ticket_quantity':   1,
+            'card_number':       self.valid_reservation_data['cardnum'],
+            'expiry_date_month': self.valid_reservation_data['cardmonth'],
+            'expiry_date_year':  self.valid_reservation_data['cardyear'],
+            })
+        session.save()
+
+        response = c.get(reverse('submitreservation'))
+
+        self.assertTrue(response.context['reservation_placed'])
 
