@@ -86,7 +86,7 @@ class CustomerCreationForm(UserCreationForm):
 
     class Meta:
         model = models.Customer
-        fields = ("email",)
+        fields = ("email", "cname")
         field_classes = {"email": forms.EmailField}
 
 
