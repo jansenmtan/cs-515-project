@@ -128,7 +128,7 @@ class Reservation(models.Model):
         return price
 
     def __str__(self):
-        return f"Reservation {self.ordernum}: by {self.cid}, departing flight {self.dfid}, tickets: {self.qty}"
+        return f"Reservation {self.ordernum if not self.ordernum is not None else ''}: by {self.cid}, departing flight {self.dfid}, return flight {self.rfid}, tickets: {self.qty}. Total price: {self.get_price()}"
 
     class Meta:
         managed = True
