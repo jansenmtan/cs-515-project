@@ -18,7 +18,7 @@ The Internet Airline - Submit Reservation
 {% block maincontainer %}
 	{% if reservation_placed %}
 	Reservation successfully placed!
-	An confirmation email has been sent to {{ request.user.email }}.
+	A confirmation email has been sent to {{ request.user.email }}.
 	{% else %}
 	Something went wrong.
 	The reservation has not been placed.
