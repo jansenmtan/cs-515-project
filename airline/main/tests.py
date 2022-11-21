@@ -106,6 +106,7 @@ class ReservationModelTests(TestCase):
         # price should be equal to (100 + 200) * 40% * 3 = 360
         self.assertEquals(reservation.get_price(), 360)
 
+
 class FlightModelTests(TestCase):
 
     def test_orig_and_dest_are_not_the_same(self):
@@ -271,6 +272,7 @@ class CustomerCreationFormTest(TestCase):
         form = forms.CustomerCreationForm(data={'email': 'jd@ex.io', 'cname': 'John Doe', 'password1': 'his password.', 'password2': 'his password.',})
         form.save()
         self.assertEquals(Customer.objects.all().count(), 1)
+
 
 class CreateAccountViewTest(TestCase):
 

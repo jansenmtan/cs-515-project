@@ -13,6 +13,7 @@ from django.utils import dateparse
 
 from . import forms, models
 
+
 class IndexView(FormView):
     template_name = "main/index.html"
     form_class = forms.FlightSearchForm
@@ -26,6 +27,7 @@ class IndexView(FormView):
         redirect_url = reverse('departureflight')
         get_parameters = urllib.parse.urlencode(form.cleaned_data)
         return redirect(f"{redirect_url}?{get_parameters}")
+
 
 class SelectDepartureFlightView(FormView):
     template_name = "main/departureflights.html"
@@ -56,6 +58,7 @@ class SelectDepartureFlightView(FormView):
 
         redirect_url = reverse('returnflight')
         return redirect(f"{redirect_url}?{self.request.META['QUERY_STRING']}")
+
 
 class SelectReturnFlightView(FormView):
     template_name = "main/returnflights.html"
@@ -104,6 +107,7 @@ class TicketQuantityView(FormView):
 
         return redirect(f"{reverse('login')}?next={reverse('billinginfo')}")
 
+
 class CreateAccountView(FormView):
     template_name = "main/createaccount.html"
     form_class = forms.CustomerCreationForm
@@ -117,6 +121,7 @@ class CreateAccountView(FormView):
 
             next_url = self.request.GET.get('next')
             return redirect(f"{next_url}")
+
 
 class GreatDealsView(FormView):
     template_name = "main/deals.html"
@@ -203,8 +208,10 @@ class SubmitReservationView(TemplateView):
 class HelpView(TemplateView):
     template_name = "main/help.html"
 
+
 class RulesView(TemplateView):
     template_name = "main/rules.html"
+
 
 class ContactUsView(FormView):
     template_name = "main/contactus.html"
@@ -215,6 +222,7 @@ class ContactUsView(FormView):
         # Would send the mail if I wanted to set up a mail server.
         #form.send_mail()
         return super().form_valid(form)
+
 
 class ThanksView(TemplateView):
     template_name = "main/thanks.html"

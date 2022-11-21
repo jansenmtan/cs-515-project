@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from . import models, fields
 
+
 class FlightSearchForm(forms.Form):
     origin_city      = forms.ModelChoiceField(queryset=models.City.objects.all())
     destination_city = forms.ModelChoiceField(queryset=models.City.objects.all())
