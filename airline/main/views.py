@@ -112,7 +112,7 @@ class BillingInformationView(FormView):
 
 
 def get_reservation_object(request):
-    return_flight = request.session['return_flight']
+    return_flight = request.session.get('return_flight', None)
     rfid = return_flight if return_flight != "" else None
     rf = None if rfid is None else models.Flight.objects.get(pk=rfid)
 
