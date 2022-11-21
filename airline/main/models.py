@@ -117,6 +117,16 @@ class Reservation(models.Model):
         is_order_placed = can_order
         return is_order_placed
 
+    def get_price(self):
+        price = self.dfid.price
+
+        if self.rfid:
+            price = (self.dfid.price + self.rfid.price) * 0.40
+
+        price *= self.qty
+
+        return price
+
     def __str__(self):
         return f"Reservation {self.ordernum}: by {self.cid}, departing flight {self.dfid}, tickets: {self.qty}"
 

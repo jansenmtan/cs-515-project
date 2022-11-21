@@ -89,6 +89,23 @@ class ReservationModelTests(TestCase):
         reservation = Reservation(**reservation_data)
         self.assertTrue(Reservation.place(reservation))
 
+    def test_get_price_of_reservation_with_return_flight(self):
+        reservation_data = {**self.valid_reservation_data}
+        reservation = Reservation(**reservation_data)
+        # price should be equal to (100 + 200) * 40% = 120
+        self.assertEquals(reservation.get_price(), 120)
+
+    def test_get_price_of_reservation_without_return_flight(self):
+        reservation_data = {**self.valid_reservation_data, 'rfid': None,}
+        reservation = Reservation(**reservation_data)
+        # price should be equal to 100
+        self.assertEquals(reservation.get_price(), 100)
+
+    def test_get_price_of_reservation_with_qty(self):
+        reservation_data = {**self.valid_reservation_data, 'qty': 3}
+        reservation = Reservation(**reservation_data)
+        # price should be equal to (100 + 200) * 40% * 3 = 360
+        self.assertEquals(reservation.get_price(), 360)
 
 class FlightModelTests(TestCase):
 
