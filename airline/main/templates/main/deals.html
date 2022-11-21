@@ -1,0 +1,27 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}
+The Internet Airline - Great Deals
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block hero %}
+	<!-- header -->
+	<header class="container">
+		<hgroup>
+			<h1>Great Deals</h1>
+			<h2>Choose from our great deals!</h2>
+		</hgroup>
+	</header>
+{% endblock %}
+
+{% block maincontainer %}
+	<form method="POST">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" value="Select flight">
+	</form>
+{% endblock %}

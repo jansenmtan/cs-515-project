@@ -1,4 +1,5 @@
 import urllib
+import datetime
 
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
@@ -116,6 +117,31 @@ class CreateAccountView(FormView):
 
             next_url = self.request.GET.get('next')
             return redirect(f"{next_url}")
+
+class GreatDealsView(FormView):
+    template_name = "main/deals.html"
+    form_class = forms.FlightSelectForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        if self.request.method == "GET":
+            queryset_great_deals = models.Flight.objects.filter(
+                    fdate__month = datetime.date.today().month,
+                    price__lte = 200.00,
+                    available__gt = 0, # equiv. model method: is_available()
+                    )
+
+            kwargs.update({ 'queryset': queryset_great_deals, 'required': True })
+
+        return kwargs
+
+    def form_valid(self, form):
+        # save departure flight onto current session
+        self.request.session['departure_flight'] = form.data['flight']
+
+        redirect_url = reverse('returnflight')
+        return redirect(f"{redirect_url}?{self.request.META['QUERY_STRING']}")
 
 
 class BillingInformationView(FormView):
