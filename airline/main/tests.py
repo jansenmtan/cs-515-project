@@ -248,6 +248,14 @@ class CustomerManagerTest(TestCase):
         self.assertTrue(c.is_superuser)
 
 
+class CustomerCreationFormTest(TestCase):
+
+    def test_create_customer(self):
+        self.assertEquals(Customer.objects.all().count(), 0)
+        form = forms.CustomerCreationForm(data={'email': 'jd@ex.io', 'cname': 'John Doe', 'password1': 'his password.', 'password2': 'his password.',})
+        form.save()
+        self.assertEquals(Customer.objects.all().count(), 1)
+
 class SubmitReservationViewTest(TestCase):
     valid_reservation_data = {}
 
