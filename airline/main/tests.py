@@ -25,6 +25,30 @@ def create_flight(**kwargs):
 
     return Flight(**flight_kwargs)
 
+def initialize_City_and_Flight():
+    City.objects.create(title="Chicago", state="IL")
+    City.objects.create(title="Los Angeles", state="CA")
+    Flight.objects.create(
+            fdate = datetime.date.today(),
+            ftime = datetime.datetime.now().time(),
+            price = 100.00,
+            class_field = 1,
+            capacity = 100,
+            available = 81,
+            orig = City.objects.get(title="Chicago"),
+            dest = City.objects.get(title="Los Angeles"),
+            )
+    Flight.objects.create(
+            fdate = datetime.date.today(),
+            ftime = datetime.datetime.now().time(),
+            price = 200.00,
+            class_field = 2,
+            capacity = 200,
+            available = 91,
+            orig = City.objects.get(title="Los Angeles"),
+            dest = City.objects.get(title="Chicago"),
+            )
+
 
 class ReservationModelTests(TestCase):
 
@@ -41,18 +65,6 @@ class ReservationModelTests(TestCase):
         pass
 
     def test_reserve_flight_that_is_not_available(self):
-        """
-        flights that have an `available` value of 0 cannot be reserved
-        """
-        unavailable_flight = create_flight(available = 0)
-        self.assertIs(unavailable_flight.is_available(), False)
-
-    def test_reserve_flight_that_is_available(self):
-        """
-        flights that have an `available` value greater than 0 can be reserved
-        """
-        available_flight = create_flight(available = 100)
-        self.assertIs(available_flight.is_available(), True)
 
 
 class FlightModelTests(TestCase):
@@ -62,6 +74,20 @@ class FlightModelTests(TestCase):
         the origin and destination cities should not be the same
         """
         pass
+
+    def test_flight_is_not_available(self):
+        """
+        flights that have an `available` value of 0 cannot be reserved
+        """
+        unavailable_flight = create_flight(available = 0)
+        self.assertIs(unavailable_flight.is_available(), False)
+
+    def test_flight_is_available(self):
+        """
+        flights that have an `available` value greater than 0 can be reserved
+        """
+        available_flight = create_flight(available = 100)
+        self.assertIs(available_flight.is_available(), True)
 
 
 class FlightSearchFormTest(TestCase):
@@ -149,28 +175,7 @@ class FlightSelectFormTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        City.objects.create(title="Chicago", state="IL")
-        City.objects.create(title="Los Angeles", state="CA")
-        Flight.objects.create(
-                fdate = datetime.date.today(),
-                ftime = datetime.datetime.now().time(),
-                price = 100.00,
-                class_field = 1,
-                capacity = 100,
-                available = 81,
-                orig = City.objects.get(title="Chicago"),
-                dest = City.objects.get(title="Los Angeles"),
-                )
-        Flight.objects.create(
-                fdate = datetime.date.today(),
-                ftime = datetime.datetime.now().time(),
-                price = 200.00,
-                class_field = 2,
-                capacity = 200,
-                available = 91,
-                orig = City.objects.get(title="Los Angeles"),
-                dest = City.objects.get(title="Chicago"),
-                )
+        initialize_City_and_Flight()
 
     def test_one_flight_selected(self):
         form = forms.FlightSelectForm(data={'flight': Flight.objects.get(pk=1).pk})
