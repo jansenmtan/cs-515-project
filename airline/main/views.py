@@ -1,6 +1,7 @@
 import urllib
 
 from django.shortcuts import render, redirect
+from django.core.mail import send_mail
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, CreateView
 from django.views.generic.detail import DetailView
@@ -146,6 +147,9 @@ class SubmitReservationView(TemplateView):
 
         context = self.get_context_data(**kwargs)
         context['reservation_placed'] = reservation_placed
+
+        # would send email if i set up email server
+        # send_mail()
 
         return self.render_to_response(context)
 
