@@ -86,14 +86,16 @@ class CustomerCreationForm(UserCreationForm):
 
     class Meta:
         model = models.Customer
-        fields = ('email', 'cname',)
+        fields = ("email",)
+        field_classes = {"email": forms.EmailField}
 
 
 class CustomerChangeForm(UserChangeForm):
 
     class Meta:
         model = models.Customer
-        fields = ('email', 'cname',)
+        fields = "__all__"
+        field_classes = {"email": forms.EmailField}
 
 
 class ContactForm(forms.Form):

@@ -17,7 +17,7 @@ class CustomerUserAdmin(UserAdmin):
             (None,          {'fields': ('email', 'cname', 'password')}),
             ('Permissions', {'fields': ('is_active',)}),
             )
-    fieldsets = (
+    add_fieldsets = (
             (
                 None,
                 {
