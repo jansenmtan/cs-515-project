@@ -15,6 +15,11 @@ class IndexView(FormView):
     template_name = "main/index.html"
     form_class = forms.FlightSearchForm
 
+    def get(self, *args, **kwargs):
+        self.request.session.flush()
+
+        return super().get(self, *args, **kwargs)
+
     def form_valid(self, form):
         redirect_url = reverse('departureflight')
         get_parameters = urllib.parse.urlencode(form.cleaned_data)
