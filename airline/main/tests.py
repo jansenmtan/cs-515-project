@@ -256,6 +256,20 @@ class CustomerCreationFormTest(TestCase):
         form.save()
         self.assertEquals(Customer.objects.all().count(), 1)
 
+class CreateAccountViewTest(TestCase):
+
+    def test_create_account(self):
+        c = Client()
+
+        self.assertEquals(Customer.objects.all().count(), 0)
+
+        next_url = reverse('billinginfo')
+        response = c.post(f"{reverse('createaccount')}?next={next_url}", {'email': 'jd@ex.io', 'cname': 'John Doe', 'password1': 'his password.', 'password2': 'his password.',})
+
+        self.assertEquals(Customer.objects.all().count(), 1)
+        self.assertIn('_auth_user_id', c.session)
+
+
 class SubmitReservationViewTest(TestCase):
     valid_reservation_data = {}
 

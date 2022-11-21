@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, CreateView
 from django.views.generic.detail import DetailView
+from django.contrib.auth import authenticate, login
 from django.urls import reverse, resolve
 from django.http import HttpResponseRedirect
 from django.utils import dateparse
@@ -101,6 +102,20 @@ class TicketQuantityView(FormView):
         self.request.session['ticket_quantity'] = form.data['ticket_quantity']
 
         return redirect(f"{reverse('login')}?next={reverse('billinginfo')}")
+
+class CreateAccountView(FormView):
+    template_name = "main/createaccount.html"
+    form_class = forms.CustomerCreationForm
+
+    def form_valid(self, form):
+        form.save()
+
+        customer = authenticate(self.request, email=self.request.POST['email'], password=self.request.POST['password1'])
+        if customer is not None:
+            login(self.request, customer)
+
+            next_url = self.request.GET.get('next')
+            return redirect(f"{next_url}")
 
 
 class BillingInformationView(FormView):

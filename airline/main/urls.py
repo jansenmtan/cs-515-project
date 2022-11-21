@@ -17,4 +17,5 @@ urlpatterns = [
         path('contactus/', views.ContactUsView.as_view(), name='contactus'),
         path('thanks/', views.ThanksView.as_view(), name='thanks'),
         path('login/', auth_views.LoginView.as_view(template_name='main/login.html'), name='login'),
+        path('createaccount/', views.CreateAccountView.as_view(), name='createaccount'),
         ]

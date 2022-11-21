@@ -20,7 +20,7 @@
 					<!-- </label> -->
 				<!-- </fieldset> -->
 				<button type="contrast">Login</button>
-				<button class="outline contrast" type="button">Create new account</button>
+				<a href="{% url 'createaccount' %}?next={% url 'billinginfo' %}" role="button" class="contrast-outline">Create new account</a>
 			</form>
 		</div>
 	</article>
