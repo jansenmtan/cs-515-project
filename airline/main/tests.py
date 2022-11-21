@@ -51,6 +51,25 @@ def initialize_City_and_Flight():
 
 
 class ReservationModelTests(TestCase):
+    valid_reservation_data = {}
+
+    @classmethod
+    def setUpTestData(cls):
+        initialize_City_and_Flight()
+
+        Customer_user_model = get_user_model()
+        Customer_user_model.objects.create_user(email='jd@ex.io', cname='John Doe', password='pass')
+
+    def setUp(self):
+        self.valid_reservation_data.update({
+            'cid':       Customer.objects.get(cname='John Doe'),
+            'dfid':      Flight.objects.get(capacity=100),
+            'rfid':      Flight.objects.get(capacity=200),
+            'qty':       1,
+            'cardnum':   "4111111111111111",
+            'cardmonth': 12,
+            'cardyear':  2022,
+            })
 
     def test_cardnum_with_only_numeric_values(self):
         """
@@ -64,7 +83,10 @@ class ReservationModelTests(TestCase):
         """
         pass
 
-    def test_reserve_flight_that_is_not_available(self):
+    def test_place_valid_reservation(self):
+        reservation_data = {**self.valid_reservation_data}
+        reservation = Reservation(**reservation_data)
+        self.assertTrue(Reservation.place(reservation))
 
 
 class FlightModelTests(TestCase):
@@ -223,3 +245,5 @@ class CustomerManagerTest(TestCase):
         self.assertTrue(c.is_active)
         self.assertTrue(c.is_staff)
         self.assertTrue(c.is_superuser)
+
+

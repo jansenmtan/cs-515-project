@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
@@ -91,6 +93,29 @@ class Reservation(models.Model):
     cardmonth = models.IntegerField()
     cardyear = models.IntegerField()
     order_date = models.DateField(blank=True, null=True)
+
+    @classmethod
+    def place(cls, reservation):
+        (df, rf) = (reservation.dfid, reservation.rfid)
+        can_order = False
+
+        if df.is_available():
+            df.available -= reservation.qty
+            df.save()
+            can_order = True
+
+        if can_order:
+            if rf is not None:
+                if rf.is_available():
+                    rf.available -= reservation.qty
+                    rf.save()
+
+            reservation.order_date = datetime.date.today()
+
+            reservation.save()
+
+        is_order_placed = can_order
+        return is_order_placed
 
     def __str__(self):
         return f"Reservation {self.ordernum}: by {self.cid}, departing flight {self.dfid}, tickets: {self.qty}"
