@@ -1,5 +1,8 @@
 # cs-515-project
 
+![image](https://github.com/jansenmtan/cs-515-project/assets/36340429/e77bed47-278f-44be-8bda-014843662d8d)
+
+
 ## Required software
 - [Python 3](https://www.python.org/)
   - [pip](https://pip.pypa.io/en/stable/installation/)
